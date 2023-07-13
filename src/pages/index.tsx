@@ -1,22 +1,78 @@
 import Image from 'next/image'
 import logoImg from '../assets/logo.svg'
-import { useState } from 'react'
+import { useState} from 'react'
 import StarRating from '../components/StarRating'
+import { api } from '../lib/axios';
+import classNames from 'classnames';
+import smileIcon from '../assets/smile.svg'
+import { useRouter } from 'next/router'
 
-export default function Home() {
-        const [ratingProducts, setRatingProducts] = useState(null);
-        const [ratingDelivery, setRatingDelivery] = useState(null);
-        const [ratingService, setRatingService] = useState(null);
+interface HomeProps {
+    rate: number | null;
+}
+
+export default function Home(props: HomeProps) {
+    const [ratingProducts, setRatingProducts] = useState<number | null>(null);
+    const [ratingDelivery, setRatingDelivery] = useState<number | null>(null);
+    const [ratingService, setRatingService] = useState<number | null>(null);
+    
+    const [visibleStar, setVisibleStar] = useState('visible')
+    const [visibleThanksBox, setVisibleThanksBox] = useState('hidden')
+    const router = useRouter() 
+
+    var divstars = classNames('text-center', 'mt-7', visibleStar)
+    var divthanksbox = classNames('h-[400px] mx-auto grid justify-items-center mt-7 bg-[#0A0E27] w-72 rounded-t-[40px] animate-fade-in', visibleThanksBox)
+    
+
+    async function sendData(){
+        setVisibleStar('hidden')
+        setVisibleThanksBox('visible')
+
+        try {
+            await api.post('/results', {
+                title: "Produtos",
+                stars: ratingProducts
+            });
+
+            await api.post('/results', {
+                title: "Entregas",
+                stars: ratingDelivery
+            });
+
+            await api.post('/results', {
+                title: "Atendimento",
+                stars: ratingService
+            });
+
+        } catch(err){
+            console.log(err)
+            alert('Falha ao enviar os dados!')
+        }
+ 
+        setTimeout(() =>{
+            router.push('/results')
+        }, 4000)
+ 
+    }
+
 
     return (
-        <div className='max-w-[370px] h-auto mx-auto items-center bg-blue-main rounded-[40px] '>
+        <div className='max-w-[370px] h-[750px] mx-auto items-center bg-blue-main rounded-[40px] '>
             <main className='mt-6 mb-6 '>
                 <Image className='w-52 mx-auto p-2' src={logoImg} alt='Bc Produtos'/>
                 <div className='text-center' >
                     <h3 className='text-white text-xl p-4 border-b-[1px] border-b-slate-700 '>Nos Avalie!</h3>
                 </div>
               
-                <div className='text-center mt-7'>
+                <div className={divthanksbox}>
+                    <section className= ' text-center flex flex-col items-center justify-center gap-4'>
+                        <Image src={smileIcon} alt=''/>
+                            <h2 className='text-white text-2xl'>Obrigado!</h2>
+                            <h3 className=' w-52 text-white text-lg'>A sua avaliação é muito importante para nós!</h3>
+                    </section>
+                </div>
+
+                <div className={divstars}>
                     <section>
                     <h2 className='text-white text-2xl'>Produtos</h2>
                     <StarRating rating={ratingProducts} onRating={(rate) => setRatingProducts(rate)}></StarRating>
@@ -33,10 +89,11 @@ export default function Home() {
                     </section>
 
                     <button className=' text-2xl w-[192px] mt-7 mb-7 bg-slate-900 text-white p-3 rounded-2xl transition ease-in-out delay-150
-                    hover:scale-110 hover:bg-slate-800 duration-300'>Enviar</button>
+                    hover:scale-110 hover:bg-slate-800 duration-300' onClick={sendData}>Enviar</button>
                 </div>
             
             </main>
         </div>
     )
+
 }

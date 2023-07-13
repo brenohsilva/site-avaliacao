@@ -1,13 +1,29 @@
 import Image from 'next/image'
 import logoImg from '../assets/logo.svg'
-import Rate from '../components/Rate'
-import { useState } from 'react'
 import StarRateFixed from '../components/StarRateFixed'
+import { api } from '../lib/axios';
 
-
-export default function Results() {
-    const [rating, setRating] = useState(0);
+interface ResultProps {
+    productcount: number;
+    productaverige: number;
     
+
+    deliverycount: number;
+    deliveryaverige: number;
+
+    assistancecount: number;
+    assistanceaverige: number;
+
+}
+
+
+export default function Results( props: ResultProps ) {
+    
+    const integerProductAverage = Math.floor(props.productaverige)
+    const integerDeliveryAverage = Math.floor(props.deliveryaverige)
+    const integerAssistanceAverage = Math.floor(props.assistanceaverige)
+
+
     return (
         <div className='max-w-[370px] h-auto mx-auto items-center bg-black-main rounded-[40px] '>
             <main className='mt-6 mb-6 '>
@@ -19,28 +35,27 @@ export default function Results() {
                 <div className='text-center mt-7 m-auto w-[318px] p-1 flex flex-col justify-center'>
                     <section className='border-b-[1px] border-blue-400'>
                         <h2 className='text-white text-2xl'>Produtos</h2>
-                        <StarRateFixed></StarRateFixed>
+                        <StarRateFixed propValor={integerProductAverage}></StarRateFixed>
                         <div className='m-auto pb-2 flex flex-row gap-3 justify-center text-white ' >
-                            <h2>(4.0)</h2>
-                            <h2>79 Avaliações</h2>
+                            <h2>({integerProductAverage}) de {props.productcount} Avaliações</h2>
+                            
                         </div>
                     </section>
 
                     <section className='border-b-[1px] border-blue-400 text-white'>
                         <h2 className='text-white text-2xl mt-[46px]'>Entregas</h2>
-                        <StarRateFixed></StarRateFixed>
+                        <StarRateFixed propValor={integerDeliveryAverage}></StarRateFixed>
                         <div className='m-auto pb-2 flex flex-row gap-3 justify-center' >
-                            <h2>(3.5)</h2>
-                            <h2>45 Avaliações</h2>
+                            <h2>({integerDeliveryAverage}) de {props.deliverycount} Avaliações</h2>
                         </div>
                     </section>
 
                     <section className='border-b-[1px] border-blue-400 text-white'>
                         <h2 className='text-white text-2xl mt-[46px]'>Atendimento</h2>
-                        <StarRateFixed></StarRateFixed>
+                        <StarRateFixed propValor={integerAssistanceAverage}></StarRateFixed>
                         <div className='m-auto pb-2 flex flex-row gap-3 justify-center' >
-                            <h2>(5.0)</h2>
-                            <h2>32 Avaliações</h2>
+                            <h2>({integerAssistanceAverage}) de {props.assistancecount} Avaliações</h2>
+                            
                         </div>
                     </section>
                     
@@ -56,4 +71,26 @@ export default function Results() {
             </main>
         </div>
     )
+}
+
+export const getServerSideProps = async () => {
+
+    const [responseProducts, responseDelivery, responseAssistance] = await Promise.all([
+        api.get('allresults/Produtos'),
+        api.get('allresults/Entregas'),
+        api.get('allresults/Atendimento')
+    ])
+    
+    return {
+        props: {
+            productcount: responseProducts.data.resultado.count,
+            productaverige: responseProducts.data.resultado.media,
+
+            deliverycount: responseDelivery.data.resultado.count,
+            deliveryaverige: responseDelivery.data.resultado.media,
+
+            assistancecount: responseAssistance.data.resultado.count,
+            assistanceaverige: responseAssistance.data.resultado.media,
+        }
+    }
 }

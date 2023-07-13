@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { FaStar } from 'react-icons/fa'
 
-export default function StarRateFixed() {
+const StarRateFixed = (props) => {
 
     const [rating, setRating] = useState(null);
-    var value = 2
+    var value = props.propValor
+    value = parseInt(value)
+    
    
     useEffect(() => {
         setRating(value)
@@ -28,3 +30,5 @@ export default function StarRateFixed() {
     );
 };
 
+
+export default StarRateFixed

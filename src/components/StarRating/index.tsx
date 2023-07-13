@@ -1,10 +1,15 @@
-import React, {useMemo, useState} from 'react';
+import React, {useState} from 'react';
 import { FaStar } from 'react-icons/fa';
 
+interface StarRatingProps{
+    rating: number | null;
+    onRating: (rate: number) => void;
+}
 
-const StarRating = ({rating, onRating}) => {
+
+const StarRating = ({rating, onRating}: StarRatingProps) => {
     
-    const [hover, setHover] = useState(null);
+    const [hover, setHover] = useState<number |  null>(null);
 
     return (
         <div className="w-48 p-5 mx-auto grid grid-cols-5 gap-10 justify-items-center ">
