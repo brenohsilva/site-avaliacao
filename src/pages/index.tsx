@@ -49,7 +49,7 @@ export default function Home(props: HomeProps) {
         
             setTimeout(() =>{
                 router.push('/results')
-            }, 4000)
+            }, 3000)
 
         } catch(err){
             console.log(err)
