@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FaStar } from 'react-icons/fa'
 
+
 const StarRateFixed = (props) => {
 
     const [rating, setRating] = useState(null);
@@ -18,7 +19,7 @@ const StarRateFixed = (props) => {
                 const ratingValue = i + 1;
             
                 return (
-                    <label>
+                    <label key={ratingValue}>
                         <FaStar
                         size={30}
                         color={ratingValue <= rating ? "#ffc107" : "#e4e5e9"}

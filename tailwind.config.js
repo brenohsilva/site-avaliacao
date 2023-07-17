@@ -8,6 +8,7 @@ module.exports = {
       fontFamily: {
         sans: 'Inter, sans-serif'
       },
+
       colors: {
         'blue-bg': '#474596',
         'blue-main': '#050A26',
@@ -15,8 +16,8 @@ module.exports = {
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        sitebg: 'url(/sitebg.png)',
       },
     },
   },

@@ -1,20 +1,22 @@
 import Image from 'next/image'
 import logoImg from '../assets/logo.svg'
 import { useState} from 'react'
-import StarRating from '../components/StarRating'
-import { api } from '../lib/axios';
 import classNames from 'classnames';
-import smileIcon from '../assets/smile.svg'
+import { api } from '../lib/axios';
 import { useRouter } from 'next/router'
+import StarRating from '../components/StarRating'
+import smileIcon from '../assets/smile.svg'
+
+
 
 interface HomeProps {
-    rate: number | null;
+    rate: number;
 }
 
 export default function Home(props: HomeProps) {
-    const [ratingProducts, setRatingProducts] = useState<number | null>(null);
-    const [ratingDelivery, setRatingDelivery] = useState<number | null>(null);
-    const [ratingService, setRatingService] = useState<number | null>(null);
+    const [ratingProducts, setRatingProducts] = useState<number>(0);
+    const [ratingDelivery, setRatingDelivery] = useState<number>(0);
+    const [ratingService, setRatingService] = useState<number>(0);
     
     const [visibleStar, setVisibleStar] = useState('visible')
     const [visibleThanksBox, setVisibleThanksBox] = useState('hidden')
@@ -25,8 +27,6 @@ export default function Home(props: HomeProps) {
     
 
     async function sendData(){
-        setVisibleStar('hidden')
-        setVisibleThanksBox('visible')
 
         try {
             await api.post('/results', {
@@ -44,14 +44,19 @@ export default function Home(props: HomeProps) {
                 stars: ratingService
             });
 
+            setVisibleStar('hidden')
+            setVisibleThanksBox('visible')
+        
+            setTimeout(() =>{
+                router.push('/results')
+            }, 4000)
+
         } catch(err){
             console.log(err)
             alert('Falha ao enviar os dados!')
         }
- 
-        setTimeout(() =>{
-            router.push('/results')
-        }, 4000)
+        
+        
  
     }
 
@@ -59,7 +64,7 @@ export default function Home(props: HomeProps) {
     return (
         <div className='max-w-[370px] h-[750px] mx-auto items-center bg-blue-main rounded-[40px] '>
             <main className='mt-6 mb-6 '>
-                <Image className='w-52 mx-auto p-2' src={logoImg} alt='Bc Produtos'/>
+                <Image className='w-52 max-[400px]:w-44 max mx-auto p-2' src={logoImg} priority alt='Bc Produtos'/>
                 <div className='text-center' >
                     <h3 className='text-white text-xl p-4 border-b-[1px] border-b-slate-700 '>Nos Avalie!</h3>
                 </div>

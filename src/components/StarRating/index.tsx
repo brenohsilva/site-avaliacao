@@ -2,14 +2,14 @@ import React, {useState} from 'react';
 import { FaStar } from 'react-icons/fa';
 
 interface StarRatingProps{
-    rating: number | null;
+    rating: number ;
     onRating: (rate: number) => void;
 }
 
 
 const StarRating = ({rating, onRating}: StarRatingProps) => {
     
-    const [hover, setHover] = useState<number |  null>(null);
+    const [hover, setHover] = useState<number>(0);
 
     return (
         <div className="w-48 p-5 mx-auto grid grid-cols-5 gap-10 justify-items-center ">
@@ -17,8 +17,9 @@ const StarRating = ({rating, onRating}: StarRatingProps) => {
             [...Array(5)].map((star, i)=> {
                 const ratingValue = i + 1;
                 return(
-                    <label>
+                    <label key={ratingValue}>
                         <input className='hidden' 
+                        
                         type="radio" 
                         name="rating" 
                         value={ratingValue} 
@@ -28,8 +29,7 @@ const StarRating = ({rating, onRating}: StarRatingProps) => {
                         size={30}
                         color={ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9" }
                         onMouseEnter={() => setHover(ratingValue)}
-                        onMouseLeave={() => setHover(null)} 
-
+                        onMouseLeave={() => setHover(0)} 
                         />
                     </label>
 

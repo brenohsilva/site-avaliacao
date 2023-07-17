@@ -6,7 +6,7 @@ export default function Document() {
             <Head>
 
             </Head>
-            <body className='bg-slate-600'>
+            <body className='bg-sitebg bg-cover p-4'>
                 <Main/>
                 <NextScript/>
             </body>
