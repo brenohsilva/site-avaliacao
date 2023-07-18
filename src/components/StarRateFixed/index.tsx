@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { FaStar } from 'react-icons/fa'
+import { PropsWithChildren } from 'react';
+
+interface StarRateFixedProps {
+    propValor: number;
+  }
 
 
-const StarRateFixed = (props) => {
+const StarRateFixed = (props: PropsWithChildren<StarRateFixedProps>) => {
 
-    const [rating, setRating] = useState(null);
-    var value = props.propValor
-    value = parseInt(value)
+    const [rating, setRating] = useState(0);
     
+    const value = parseInt(String(props.propValor))
    
     useEffect(() => {
         setRating(value)
