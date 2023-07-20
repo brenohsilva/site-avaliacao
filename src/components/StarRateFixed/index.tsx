@@ -3,7 +3,7 @@ import { FaStar } from 'react-icons/fa'
 import { PropsWithChildren } from 'react';
 
 interface StarRateFixedProps {
-    propValor: number;
+    propValor: number | string;
   }
 
 

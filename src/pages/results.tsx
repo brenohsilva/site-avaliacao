@@ -20,9 +20,9 @@ interface ResultProps {
 
 export default function Results( props: ResultProps ) {
     
-    const integerProductAverage = Math.floor(props.productaverige)
-    const integerDeliveryAverage = Math.floor(props.deliveryaverige)
-    const integerServiceAverage = Math.floor(props.serviceaverige)
+    const integerProductAverage = props.productaverige.toFixed(1)
+    const integerDeliveryAverage = props.deliveryaverige.toFixed(1)
+    const integerServiceAverage = props.serviceaverige.toFixed(1)
 
     const router = useRouter() 
      
@@ -36,7 +36,7 @@ export default function Results( props: ResultProps ) {
             <main className='mt-6 mb-6 '>
                 <Image className='w-52 mx-auto p-2' src={logoImg} priority alt='Bc Produtos'/>
                 <div className='text-center' >
-                    <h3 className='text-white text-xl p-4 border-b-[1px] border-blue-400 '>Nossas avaliações!!</h3>
+                    <h3 className='text-white text-xl p-4 border-b-[1px] border-blue-400 '>Média das avaliações!!</h3>
                 </div>
             
                 <div className='text-center mt-7 m-auto w-[318px] p-1 flex flex-col justify-center'>
