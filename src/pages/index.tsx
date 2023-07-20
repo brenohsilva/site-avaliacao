@@ -94,7 +94,7 @@ export default function Home(props: HomeProps) {
                     </section>
 
                     <section>
-                    <h2 className='text-white text-2xl mt-[46px]'>Entregas</h2>
+                    <h2 className='text-white text-2xl mt-[46px]'>Entrega</h2>
                     <StarRating rating={ratingDelivery} onRating={(rate) => setRatingDelivery(rate)}></StarRating>
                     </section>
 
